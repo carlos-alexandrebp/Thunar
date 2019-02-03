@@ -19,20 +19,24 @@ public class ManipularCmds {
                     return "Erro! Use o cd com argumentos sendo pasta ou arquivos ex [cd casa]|";
                 }
                 else if(trecho[1].equals("..")){
-                    
                     String[] x = dirPai.replace('/', ' ').split(" ");
-                    for(int a =1;a < (x.length -1);a++)
-                    {
-
-                    if(a == 0){
-                        dirPai = "";
-                        dirPai = x[a];
+                    
+                    if(x.length == 2){
+                        dirPai = "/";
                     }
                     else{
-                        dirPai +="/"+ x[a];
+                        for(int a =0;a < (x.length -1);a++)
+                        {
+
+                        if(a == 0){
+                            dirPai = "/";
+                            dirPai = x[a];
+                        }
+                        else{
+                            dirPai +="/"+ x[a];
+                        }
+                        }
                     }
-                    }
-                   
                     return "$"+dirPai+"* "+dirPai;
                     
                 }
@@ -40,15 +44,37 @@ public class ManipularCmds {
                     File arq = new File(dirPai+"/"+trecho[1]);
                     
                     if(arq.exists()){
-                        dirPai = dirPai+""+trecho[1]; 
-                        
+                        if(dirPai.equals("/"))
+                            dirPai = dirPai+""+trecho[1]; 
+                        else{
+                            dirPai = dirPai+"/"+trecho[1]; 
+                        }
                         
                         return "$"+dirPai+"* "+dirPai;
                     }
                  }
                 break;
-        
+            case "ls":
+                File arq = new File(dirPai);
+                
+                File[] listarDiretorios = arq.listFiles(File :: isDirectory);
+                File[] listarFiles = arq.listFiles(File :: isFile);
+                
+                for(File D : listarDiretorios)
+                {
+                    System.out.println("  " + D.getName());
+                }
+                for(File F : listarFiles)
+                {
+                    System.out.println(" *" + F.getName());
+                }
+                
+                return "ok";
+                
+                //break;
+            
         }
+        
         
         return "   !Erro! nao existe o arquivo espesificado ou programa.";
     }

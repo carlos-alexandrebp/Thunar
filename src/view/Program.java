@@ -45,7 +45,8 @@ public class Program {
                     localCursor = retornoSimples[0];
                 }
                 else{
-                    System.out.println(retornoCompleto);
+                    if(!retornoCompleto.contains("ok"))
+                        System.out.println(retornoCompleto);
                 }
             
             }
